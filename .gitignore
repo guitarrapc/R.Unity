@@ -19,3 +19,9 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+# Visual Studio
+.vs/
+
+# R.Unity
+src/R.Unity/Library/

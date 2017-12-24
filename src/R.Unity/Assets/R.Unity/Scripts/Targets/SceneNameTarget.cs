@@ -16,7 +16,7 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class SceneNames");
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in GenerateSceneNames())
+            foreach (var item in GetSceneNames())
             {
                 builder.AppendLine(Constants.Tab + Constants.Tab + item);
             }
@@ -25,7 +25,7 @@ namespace RUnity.Generator.Targets
             return builder.ToString();
         }
 
-        private static string[] GenerateSceneNames()
+        private static string[] GetSceneNames()
         {
             var scenes = EditorBuildSettings.scenes
                 .Select(x => new BuildSettingScenes(x.path, System.IO.Path.GetFileNameWithoutExtension(x.path)))

@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+using RUnity.Generator.Targets;
 #endif
 
 #if UNITY_EDITOR
@@ -15,6 +16,7 @@ namespace RUnity.Generator
     {
         private static string outputPathDefault = "Assets/Resources/RUnity.g.cs";
         private static StringBuilder builder = new StringBuilder();
+        public static string Tab { get { return "    "; } }
 
         // Generated file output path
         public static string OutputPath { get; private set; }
@@ -36,7 +38,7 @@ namespace RUnity.Generator
             BeginNameSpace();
 
             // generate SceneNames
-            var sceneClass = SceneNames.Generate();
+            var sceneClass = SceneNameTarget.Generate();
             Debug.Log(sceneClass);
 
             // Append Class;
@@ -45,8 +47,12 @@ namespace RUnity.Generator
             // End NameSpace
             EndNameSpace();
 
+            // Generate to string
+            var write = builder.ToString();
+
+            // Write
             RemoveExisting();
-            WriteNew(sceneClass);
+            WriteNew(write);
             Success = true;
 
             if (Success)

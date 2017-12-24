@@ -2,11 +2,11 @@
 {
     public static class SceneNames
     {
-        public static readonly string _One_hoge = "1hoge";
-        public static readonly string _validate = "_validate";
-        public static readonly string abc = "abc";
-        public static readonly string abc_ = "abc_";
-        public static readonly string Hoge_Exclamation_fuga = "Hoge!fuga";
-        public static readonly string main = "main";
+        public static string _One_hoge { get {return "1hoge";} }
+        public static string _validate { get {return "_validate";} }
+        public static string Abc { get {return "abc";} }
+        public static string Abc_ { get {return "abc_";} }
+        public static string Hoge_Exclamation_fuga { get {return "Hoge!fuga";} }
+        public static string Main { get {return "main";} }
     }
 }

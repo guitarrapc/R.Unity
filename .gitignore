@@ -24,4 +24,7 @@ sysinfo.txt
 .vs/
 
 # R.Unity
-src/R.Unity/Library/
+src/R.Unity/[Ll]ibrary/
+src/R.Unity/[Tt]emp/
+src/R.Unity/[Oo]bj/
+src/R.Unity/[Bb]uild/

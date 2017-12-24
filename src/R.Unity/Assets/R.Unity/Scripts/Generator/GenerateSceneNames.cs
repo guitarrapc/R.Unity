@@ -14,6 +14,8 @@ namespace RUnity.Generator
     public static class Generator
     {
         private static string outputPathDefault = "Assets/Resources/RUnity.g.cs";
+        private static StringBuilder builder = new StringBuilder();
+
         // Generated file output path
         public static string OutputPath { get; private set; }
         private static bool Success { get; set; }
@@ -30,12 +32,21 @@ namespace RUnity.Generator
 
         public static bool Generate()
         {
+            // Start NameSpace
+            BeginNameSpace();
+
             // generate SceneNames
             var sceneClass = SceneNames.Generate();
             Debug.Log(sceneClass);
 
-            RemoveClass();
-            WriteClass(sceneClass);
+            // Append Class;
+            AppendClass(sceneClass);
+
+            // End NameSpace
+            EndNameSpace();
+
+            RemoveExisting();
+            WriteNew(sceneClass);
             Success = true;
 
             if (Success)
@@ -45,7 +56,31 @@ namespace RUnity.Generator
             return Success;
         }
 
-        private static void RemoveClass()
+        private static void BeginNameSpace()
+        {
+            // namespace RUnity
+            // {
+            // }
+            builder.AppendLine(@"namespace RUnity");
+            builder.AppendLine(@"{");
+        }
+
+        private static void EndNameSpace()
+        {
+            builder.AppendLine(@"}");
+        }
+
+        private static void AppendClass(string value)
+        {
+            builder.Append(value);
+        }
+
+        private static string GenerateString()
+        {
+            return builder.ToString();
+        }
+
+        private static void RemoveExisting()
         {
             if (File.Exists(OutputPath))
             {
@@ -61,7 +96,7 @@ namespace RUnity.Generator
             }
         }
 
-        private static void WriteClass(string value)
+        private static void WriteNew(string value)
         {
             var directory = Path.GetDirectoryName(OutputPath);
             if (!Directory.Exists(directory))

@@ -14,8 +14,6 @@ namespace RUnity.Generator
         public static string Generate()
         {
             var builder = new StringBuilder();
-            builder.AppendLine(@"namespace RUnity");
-            builder.AppendLine(@"{");
             builder.AppendLine(@"    public static class SceneNames");
             builder.AppendLine(@"    {");
             foreach (var item in GenerateSceneNames())
@@ -23,7 +21,6 @@ namespace RUnity.Generator
                 builder.AppendLine(@"        " + item);
             }
             builder.AppendLine(@"    }");
-            builder.AppendLine(@"}");
 
             return builder.ToString();
         }

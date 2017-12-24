@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 #if UNITY_EDITOR
-namespace RUnity.Generator.EditorExtension
+namespace RUnity.Generator.Editor.EditorExtension
 {
     public class SceneNameEditorExtension : EditorWindow
     {

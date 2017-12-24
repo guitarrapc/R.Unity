@@ -66,6 +66,7 @@ namespace RUnity.Generator
             WriteNew(write);
             Success = true;
 
+            // Refresh to Update Asset Database.
             if (Success)
             {
                 Refresh();

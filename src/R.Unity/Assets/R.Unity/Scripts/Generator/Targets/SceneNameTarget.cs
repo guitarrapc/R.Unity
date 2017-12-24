@@ -28,18 +28,18 @@ namespace RUnity.Generator.Targets
         private static string[] GetSceneNames()
         {
             var scenes = EditorBuildSettings.scenes
-                .Select(x => new BuildSettingScenes(x.path, System.IO.Path.GetFileNameWithoutExtension(x.path)))
+                .Select(x => new BuildSetting(x.path, System.IO.Path.GetFileNameWithoutExtension(x.path)))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return scenes;
         }
 
-        private struct BuildSettingScenes
+        private struct BuildSetting
         {
             public string Path { get; set; }
             public string Name { get; set; }
             public string CSharpName { get; set; }
-            public BuildSettingScenes(string path, string name)
+            public BuildSetting(string path, string name)
             {
                 Path = path;
                 Name = name;

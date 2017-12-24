@@ -49,11 +49,15 @@ namespace RUnity.Generator
             var sceneClass = SceneNameTarget.Generate();
             Logger.Info(sceneClass);
 
+            var fontClass = FontTarget.Generate();
+            Logger.Info(fontClass);
+
             // Append Class;
             if (UseGeneratorSceneNames)
             {
                 AppendClass(sceneClass);
             }
+            AppendClass(fontClass);
 
             // End NameSpace
             EndNameSpace();

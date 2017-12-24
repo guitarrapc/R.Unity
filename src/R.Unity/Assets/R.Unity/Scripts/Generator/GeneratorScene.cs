@@ -16,15 +16,23 @@ namespace RUnity.Generator
     {
         private static string outputPathDefault = "Assets/Resources/RUnity.g.cs";
         private static StringBuilder builder = new StringBuilder();
-        public static string Tab { get { return "    "; } }
 
         // Generated file output path
         public static string OutputPath { get; private set; }
+        public static bool EnableLogger { get; private set; }
+        public static bool UseGeneratorSceneNames { get; set; }
+        public static ILogger Logger { get; set; }
+
         private static bool Success { get; set; }
 
         static Generator()
         {
+            UseGeneratorSceneNames = true;
             OutputPath = outputPathDefault;
+            if (Logger == null)
+            {
+                Logger = new UnityLogger();
+            }
         }
 
         public static void SetOutputPath(string path)
@@ -39,10 +47,13 @@ namespace RUnity.Generator
 
             // generate SceneNames
             var sceneClass = SceneNameTarget.Generate();
-            Debug.Log(sceneClass);
+            Logger.Info(sceneClass);
 
             // Append Class;
-            AppendClass(sceneClass);
+            if (UseGeneratorSceneNames)
+            {
+                AppendClass(sceneClass);
+            }
 
             // End NameSpace
             EndNameSpace();
@@ -96,7 +107,7 @@ namespace RUnity.Generator
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError(ex);
+                    Logger.Error(ex);
                     Success = false;
                 }
             }
@@ -113,7 +124,7 @@ namespace RUnity.Generator
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError(ex);
+                    Logger.Error(ex);
                     Success = false;
                     return;
                 }

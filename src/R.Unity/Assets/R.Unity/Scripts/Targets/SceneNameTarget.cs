@@ -14,13 +14,13 @@ namespace RUnity.Generator.Targets
         public static string Generate()
         {
             var builder = new StringBuilder();
-            builder.AppendLine(Generator.Tab + @"public static class SceneNames");
-            builder.AppendLine(Generator.Tab + @"{");
+            builder.AppendLine(Constants.Tab + @"public static class SceneNames");
+            builder.AppendLine(Constants.Tab + @"{");
             foreach (var item in GenerateSceneNames())
             {
-                builder.AppendLine(Generator.Tab + Generator.Tab + item);
+                builder.AppendLine(Constants.Tab + Constants.Tab + item);
             }
-            builder.AppendLine(Generator.Tab + @"}");
+            builder.AppendLine(Constants.Tab + @"}");
 
             return builder.ToString();
         }

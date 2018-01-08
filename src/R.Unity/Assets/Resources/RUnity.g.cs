@@ -9,7 +9,7 @@
         public static string Scenes_Slash_Hoge_Exclamation_fuga { get {return "Scenes/Hoge!fuga";} }
         public static string Scenes_Slash_main { get {return "Scenes/main";} }
         public static string Scenes_Slash_public { get {return "Scenes/public";} }
-        public static string Public { get {return "public";} }
+        public static string Scenes_Slash_hogemoge_Slash_public { get {return "Scenes/hogemoge/public";} }
     }
 
     public static class FontNames
@@ -164,11 +164,11 @@
         }
         public static class Ids
         {
-            public static string Default { get {return "0";} }
-            public static string TransparentFX { get {return "1";} }
-            public static string Ignore_Space_Raycast { get {return "2";} }
-            public static string Water { get {return "4";} }
-            public static string UI { get {return "5";} }
+            public static int Default { get {return 0;} }
+            public static int TransparentFX { get {return 1;} }
+            public static int Ignore_Space_Raycast { get {return 2;} }
+            public static int Water { get {return 4;} }
+            public static int UI { get {return 5;} }
         }
     }
 
@@ -177,10 +177,12 @@
         public static class Names
         {
             public static string Default { get {return "Default";} }
+            public static string Baskground { get {return "Baskground";} }
         }
         public static class Ids
         {
-            public static string Default { get {return "0";} }
+            public static int Default { get {return 0;} }
+            public static int Baskground { get {return 1579608521;} }
         }
     }
 

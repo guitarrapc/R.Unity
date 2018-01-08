@@ -25,18 +25,6 @@ namespace RUnity.Generator.Editor.EditorExtension
             Generator.GenerateAll();
         }
 
-        [MenuItem(MenuGenerateSceneNames)]
-        static void GenerateSceneNames()
-        {
-            Generator.GenerateAll();
-        }
-
-        [MenuItem(MenuGenerateFontNames)]
-        static void GenerateFontNames()
-        {
-            Generator.GenerateAll();
-        }
-
         [MenuItem(MenuCreateRUnityScriptableObject)]
         static void CreateRUnityOption()
         {

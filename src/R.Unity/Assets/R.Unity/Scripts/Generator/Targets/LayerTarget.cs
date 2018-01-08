@@ -86,7 +86,7 @@ namespace RUnity.Generator.Targets
 
             public string GenerateCSharpIdSentence()
             {
-                return "public static string " + CSharpName + " { get {return \"" + Id + "\";} }";
+                return "public static int " + CSharpName + " { get {return " + Id + ";} }";
             }
         }
     }

@@ -42,11 +42,8 @@ namespace RUnity.Generator.Targets
 
         private static string[] SearchFont()
         {
-            // Search all folder include *font*.
-            // TODO : Is this right way to search fonts?
-            // TODO : Should I just search by extensions?
-            // TODO : Or Should I set extensions to path folder?
-            var fonts = Directory.GetDirectories(Application.dataPath, "*font*", SearchOption.AllDirectories)
+            // Search all folders except editor.
+            var fonts = Directory.GetFiles(Application.dataPath, "*", SearchOption.AllDirectories)
                 .SelectMany(x => new DirectoryInfo(x).GetFiles())
                 .Where(x => !(x.Directory.FullName.Contains("editor") || x.Directory.FullName.Contains("Editor")))
                 .Where(x => x.Extension == ".ttf" || x.Extension == ".otf")

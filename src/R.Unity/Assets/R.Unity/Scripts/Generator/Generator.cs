@@ -29,8 +29,6 @@ namespace RUnity.Generator
     public static class Generator
     {
         private static readonly string OutputPathDefault = "Assets/Resources/RUnity.g.cs";
-        private static readonly StringBuilder builder = new StringBuilder();
-        private static readonly List<string> listString = new List<string>();
 
         // Generated file output path
         public static string OutputPath { get; private set; }
@@ -66,25 +64,32 @@ namespace RUnity.Generator
         public static bool GenerateAll()
         {
             // Initialize
-            listString.Clear();
+            var listString = new List<string>();
 
             // ITargets
-            if (UseGeneratorSceneNames) GenerateClass(new SceneNameTarget());
-            if (UseGeneratorFontNames) GenerateClass(new FontTarget());
+            if (UseGeneratorSceneNames) GenerateClass(new SceneNameTarget(), listString);
+            if (UseGeneratorFontNames) GenerateClass(new FontTarget(), listString);
 
             // Add NameSpace
-            AddNameSpace();
+            listString.Insert(0, @"namespace RUnity");
+            listString.Insert(1, @"{");
+            listString.Insert(listString.Count, @"}");
 
             // Generate string
-            foreach(var item in listString)
+            var builder = new StringBuilder();
+            foreach (var item in listString)
             {
                 builder.AppendLine(item);
             }
             var write = builder.ToString();
             Logger.Info(write);
 
+            // clean up
+            builder = null;
+            listString.Clear();
+            listString = null;
+
             // Write
-            RemoveExisting();
             WriteNew(write);
             Success = true;
 
@@ -96,7 +101,7 @@ namespace RUnity.Generator
             return Success;
         }
 
-        public static void GenerateClass(ITarget target)
+        public static void GenerateClass(ITarget target, List<string> listString)
         {
             // generate SceneNames
             var classItem = target.Generate();
@@ -104,34 +109,6 @@ namespace RUnity.Generator
 
             // Generate to string
             listString.Add(classItem);
-        }
-
-        private static void AddNameSpace()
-        {
-            listString.Insert(0, @"namespace RUnity");
-            listString.Insert(1, @"{");
-            listString.Insert(listString.Count, @"}");
-        }
-
-        private static void AppendClass(string value)
-        {
-            builder.AppendLine(value);
-        }
-
-        private static void RemoveExisting()
-        {
-            if (File.Exists(OutputPath))
-            {
-                try
-                {
-                    File.Delete(OutputPath);
-                }
-                catch (System.Exception ex)
-                {
-                    Logger.Error(ex);
-                    Success = false;
-                }
-            }
         }
 
         private static void WriteNew(string value)
@@ -151,7 +128,7 @@ namespace RUnity.Generator
                 }
             }
 
-            File.AppendAllText(OutputPath, value, Encoding.UTF8);
+            File.WriteAllText(OutputPath, value, Encoding.UTF8);
         }
     }
 }

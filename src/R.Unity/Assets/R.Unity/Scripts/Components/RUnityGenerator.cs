@@ -16,6 +16,7 @@ namespace RUnity.Generator
                 Generator.GenerateFontNames = option.GenerateFontNames;
                 Generator.GenerateShaderNames = option.GenerateShaderNames;
                 Generator.GenerateTagNames = option.GenerateTagNames;
+                Generator.GenerateLayers = option.GenerateLayers;
                 Generator.SetOutputPath(option.OutputPath);
                 if (option.UseUnityLogger) Generator.SetLogger(new UnityLogger());
             }

@@ -152,4 +152,24 @@
         public static string GameController { get {return "GameController";} }
     }
 
+    public static class Layers
+    {
+        public static class Names
+        {
+            public static string Default { get {return "Default";} }
+            public static string TransparentFX { get {return "TransparentFX";} }
+            public static string Ignore_Space_Raycast { get {return "Ignore Raycast";} }
+            public static string Water { get {return "Water";} }
+            public static string UI { get {return "UI";} }
+        }
+        public static class Ids
+        {
+            public static string Default { get {return "0";} }
+            public static string TransparentFX { get {return "1";} }
+            public static string Ignore_Space_Raycast { get {return "2";} }
+            public static string Water { get {return "4";} }
+            public static string UI { get {return "5";} }
+        }
+    }
+
 }

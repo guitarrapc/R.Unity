@@ -36,6 +36,7 @@ namespace RUnity.Generator
         public static bool GenerateFontNames { get; set; }
         public static bool GenerateShaderNames { get; set; }
         public static bool GenerateTagNames { get; set; }
+        public static bool GenerateLayers { get; set; }
         public static ILogger Logger { get; private set; }
 
         private static bool Success { get; set; }
@@ -58,6 +59,7 @@ namespace RUnity.Generator
             GenerateFontNames = true;
             GenerateShaderNames = true;
             GenerateTagNames = true;
+            GenerateLayers = true;
             OutputPath = OutputPathDefault;
             if (Logger == null)
             {
@@ -75,6 +77,7 @@ namespace RUnity.Generator
             if (GenerateFontNames) GenerateClass(new FontTarget(), listString);
             if (GenerateShaderNames) GenerateClass(new ShaderTarget(), listString);
             if (GenerateTagNames) GenerateClass(new TagTarget(), listString);
+            if (GenerateLayers) GenerateClass(new LayerTarget(), listString);
 
             // Add NameSpace
             listString.Insert(0, @"namespace RUnity");

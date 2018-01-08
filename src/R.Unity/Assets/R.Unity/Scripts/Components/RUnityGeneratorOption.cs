@@ -9,6 +9,7 @@ namespace RUnity.Generator
         public bool GenerateFontNames = true;
         public bool GenerateShaderNames = true;
         public bool GenerateTagNames = true;
+        public bool GenerateLayers = true;
         public bool UseUnityLogger = true;
     }
 }

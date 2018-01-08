@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using UnityEngine;
+using RUnity.Generator.Extensions;
 
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets
 {
     public class ShaderTarget : ITarget
     {
+        private static ILogger logger = new UnityLogger();
+
         // Tips:
         // Pickup Builtin shadername with linqpad.
         //
@@ -25,7 +28,7 @@ namespace RUnity.Generator.Targets
         //    .Where(x => !x.StartsWith("\"Hidden"))
         //    .OrderBy(x => x)
         //    .Dump();
-        private static readonly string[] buildinShaders = new[] {
+        private static readonly string[] builtinShaders = new[] {
 #if UNITY_2017_3
             #region 2017.3.x : 109 items
             "AR/TangoARRender",
@@ -385,7 +388,7 @@ namespace RUnity.Generator.Targets
 
         private static string[] GetBuiltin()
         {
-            var shaders = buildinShaders
+            var shaders = builtinShaders
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
@@ -394,28 +397,81 @@ namespace RUnity.Generator.Targets
 
         private static string[] GetCustom()
         {
-            var shaders = Search()
+            var search = Search();
+            var searchNames = search.Select(x => x.Name).ToArray();
+
+            // Duplcate name with BuiltinShader Check
+            var buildInDuplicate = searchNames.Intersect(builtinShaders).ToArray();
+            if (buildInDuplicate.Any())
+            {
+                foreach (var dup in buildInDuplicate)
+                {
+                    var item = search.Where(x => x.Name == dup);
+                    if (item.Any())
+                    {
+                        var fileName = item.Select(x => x.File.FullName).ToJoinedString(System.Environment.NewLine);
+                        logger.Warning(item.First().Name + " : Custom Shader name conflict with BuiltinShader, skipping shader." + "(" + fileName + ")");
+                    }
+                }
+            }
+
+            // Duplicate name check
+            var duplicate = search.GroupBy(x => x.Name)
+                .Where(x => x.Count() > 1)
+                .Select(x => x.Key)
+                .ToArray();
+            if (duplicate.Any())
+            {
+                foreach (var dup in duplicate)
+                {
+                    var item = search.Where(x => x.Name == dup);
+                    if (item.Any())
+                    {
+                        var fileName = item.Select(x => x.File.FullName).ToJoinedString(System.Environment.NewLine);
+                        logger.Warning(item.First().Name + " : Shader name duplicated, take first and skip rest shaders : " +"(" + fileName + ")");
+                    }
+                }
+            }
+
+            var shaders = searchNames.Except(buildInDuplicate).Distinct()
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
+
             return shaders;
         }
 
-        private static string[] Search()
+        private static ShaderInfo[] Search()
         {
             // Search all folders except editor.
             var items = Directory.GetFiles(Application.dataPath, "*", SearchOption.AllDirectories)
                 .SelectMany(x => new DirectoryInfo(x).GetFiles())
                 .Where(x => !(x.Directory.FullName.Contains("editor") || x.Directory.FullName.Contains("Editor")))
                 .Where(x => x.Extension == ".shader")
-                .SelectMany(x => File.ReadAllLines(x.FullName))
-                .Where(x => x.Contains("Shader \""))
-                .Select(x => x.Replace("Shader \"", ""))
-                .Select(x => x.Replace("\" {", ""))
-                .Where(x => !x.StartsWith("Hidden"))
-                .OrderBy(x => x)
+                .Select(x =>
+                {
+                    var name = File.ReadAllLines(x.FullName)
+                    .Where(y => y.Contains("Shader \""))
+                    .Select(y => y.Replace("Shader \"", ""))
+                    .Select(y => y.Replace("\" {", ""))
+                    .Where(y => !y.StartsWith("Hidden"))
+                    .FirstOrDefault();
+                    return new ShaderInfo(x, name);
+                })
                 .ToArray();
             return items;
+        }
+
+        private struct ShaderInfo
+        {
+            public FileInfo File { get; set; }
+            public string Name { get; set; }
+
+            public ShaderInfo(FileInfo file, string name) : this()
+            {
+                File = file;
+                Name = name;
+            }
         }
 
         private struct BuildSetting

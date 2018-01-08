@@ -56,7 +56,6 @@ namespace RUnity.Generator
             UseGeneratorSceneNames = true;
             UseGeneratorFontNames = true;
             UseGeneratorShaderNames = true;
-
             OutputPath = OutputPathDefault;
             if (Logger == null)
             {

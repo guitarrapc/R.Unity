@@ -50,8 +50,8 @@ namespace RUnity.Generator.Targets
 
         private static SortingLayerInfo[] Search()
         {
-            // Search all folders except editor.
-
+            // Reflection to get sortinglayers
+            // https://answers.unity.com/questions/585108/how-do-you-access-sorting-layers-via-scripting.html
             var sortingLayerProperties = typeof(InternalEditorUtility).GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
             var sortingLayers = sortingLayerProperties.GetValue(null, new object[0]) as string[];
             var items = sortingLayers.Select(x => new SortingLayerInfo(x, SortingLayer.NameToID(x))).ToArray();

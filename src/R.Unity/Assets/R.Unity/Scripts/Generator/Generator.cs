@@ -38,6 +38,7 @@ namespace RUnity.Generator
         public static bool GenerateTagNames { get; set; }
         public static bool GenerateLayers { get; set; }
         public static bool GenerateSortingLayers { get; set; }
+        public static bool GenerateNavMeshAreaNames { get; set; }
         public static ILogger Logger { get; private set; }
 
         private static bool Success { get; set; }
@@ -62,6 +63,7 @@ namespace RUnity.Generator
             GenerateTagNames = true;
             GenerateLayers = true;
             GenerateSortingLayers = true;
+            GenerateNavMeshAreaNames = true;
             OutputPath = OutputPathDefault;
             if (Logger == null)
             {
@@ -81,6 +83,7 @@ namespace RUnity.Generator
             if (GenerateTagNames) GenerateClass(new TagTarget(), listString);
             if (GenerateLayers) GenerateClass(new LayerTarget(), listString);
             if (GenerateSortingLayers) GenerateClass(new SortingLayerTarget(), listString);
+            if (GenerateNavMeshAreaNames) GenerateClass(new NavMeshAreaNameTarget(), listString);
 
             // Add NameSpace
             listString.Insert(0, @"namespace RUnity");

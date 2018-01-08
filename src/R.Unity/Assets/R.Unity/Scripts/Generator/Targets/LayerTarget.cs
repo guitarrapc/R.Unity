@@ -49,7 +49,6 @@ namespace RUnity.Generator.Targets
 
         private static LayerInfo[] Search()
         {
-            // Search all folders except editor.
             var items = InternalEditorUtility.layers.Select(x => new LayerInfo(x, LayerMask.NameToLayer(x))).ToArray();
             return items;
         }

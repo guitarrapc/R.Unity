@@ -184,4 +184,11 @@
         }
     }
 
+    public static class NavMeshAreaNames
+    {
+        public static string Walkable { get {return "Walkable";} }
+        public static string Not_Space_Walkable { get {return "Not Walkable";} }
+        public static string Jump { get {return "Jump";} }
+    }
+
 }

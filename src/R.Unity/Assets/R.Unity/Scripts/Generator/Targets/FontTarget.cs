@@ -10,13 +10,18 @@ namespace RUnity.Generator.Targets
 {
     public class FontTarget : ITarget
     {
+        private static readonly Font[] builtinFonts = new[]
+        {
+            Resources.GetBuiltinResource<Font>("Arial.ttf"),
+        };
+
         public string ClassName { get { return "FontNames"; } }
         public string Generate()
         {
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class " + ClassName);
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in Get())
+            foreach (var item in GetCSharpSentence())
             {
                 builder.AppendLine(Constants.DoubleTab + item);
             }
@@ -25,9 +30,9 @@ namespace RUnity.Generator.Targets
             return builder.ToString();
         }
 
-        private static string[] Get()
+        private static string[] GetCSharpSentence()
         {
-            var items = GetDefaultFonts()
+            var items = SearchBuiltin()
                 .Select(x => x.name)
                 .Concat(Search())
                 .Select(x => new BuildSetting(x))
@@ -36,9 +41,9 @@ namespace RUnity.Generator.Targets
             return items;
         }
 
-        private static Font[] GetDefaultFonts()
+        private static Font[] SearchBuiltin()
         {
-            return new[] { Resources.GetBuiltinResource<Font>("Arial.ttf") };
+            return builtinFonts;
         }
 
         private static string[] Search()

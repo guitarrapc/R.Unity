@@ -18,7 +18,7 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class " + ClassName);
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in Get())
+            foreach (var item in GetCSharpSentence())
             {
                 builder.AppendLine(Constants.DoubleTab + item);
             }
@@ -27,18 +27,21 @@ namespace RUnity.Generator.Targets
             return builder.ToString();
         }
 
-        private static string[] Get()
+        private static string[] GetCSharpSentence()
         {
-            var items = EditorBuildSettings.scenes
-                .Select(x => new BuildSetting(Search(x.path)))
+            var items = Search()
+                .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return items;
         }
 
-        private static string Search(string path)
+        private static string[] Search()
         {
-            return System.IO.Path.ChangeExtension(path.Replace("Assets/", ""), null);
+            var items = EditorBuildSettings.scenes
+                .Select(x => System.IO.Path.ChangeExtension(x.path.Replace("Assets/", ""), null))
+                .ToArray();
+            return items;
         }
 
         private struct BuildSetting

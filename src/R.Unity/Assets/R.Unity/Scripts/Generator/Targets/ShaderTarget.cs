@@ -370,7 +370,7 @@ namespace RUnity.Generator.Targets
 
             builder.AppendLine(Constants.DoubleTab + @"public static class Builtin");
             builder.AppendLine(Constants.DoubleTab + @"{");
-            foreach (var item in GetBuiltin())
+            foreach (var item in GetBuiltinChsarpSentence())
             {
                 builder.AppendLine(Constants.TripleTab + item);
             }
@@ -378,7 +378,7 @@ namespace RUnity.Generator.Targets
 
             builder.AppendLine(Constants.DoubleTab + @"public static class Custom");
             builder.AppendLine(Constants.DoubleTab + @"{");
-            foreach (var item in Get())
+            foreach (var item in GetCSharpSentence())
             {
                 builder.AppendLine(Constants.TripleTab + item);
             }
@@ -388,16 +388,7 @@ namespace RUnity.Generator.Targets
             return builder.ToString();
         }
 
-        private static string[] GetBuiltin()
-        {
-            var items = builtinShaders
-                .Select(x => new BuildSetting(x))
-                .Select(x => x.GenerateCSharpSentence())
-                .ToArray();
-            return items;
-        }
-
-        private static string[] Get()
+        private static string[] GetCSharpSentence()
         {
             var search = Search();
             var searchNames = search.Select(x => x.Name).ToArray();
@@ -441,6 +432,20 @@ namespace RUnity.Generator.Targets
                 .ToArray();
 
             return shaders;
+        }
+
+        private static string[] GetBuiltinChsarpSentence()
+        {
+            var items = SearchBuiltin()
+                .Select(x => new BuildSetting(x))
+                .Select(x => x.GenerateCSharpSentence())
+                .ToArray();
+            return items;
+        }
+
+        private static string[] SearchBuiltin()
+        {
+            return builtinShaders;
         }
 
         private static ShaderInfo[] Search()

@@ -19,7 +19,7 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class " + ClassName);
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in Get())
+            foreach (var item in GetCSharpSentence())
             {
                 builder.AppendLine(Constants.DoubleTab + item);
             }
@@ -28,7 +28,7 @@ namespace RUnity.Generator.Targets
             return builder.ToString();
         }
 
-        private static string[] Get()
+        private static string[] GetCSharpSentence()
         {
             var items = Search()
                 .Select(x => new BuildSetting(x))

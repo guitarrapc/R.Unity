@@ -14,6 +14,7 @@ namespace RUnity.Generator
             {
                 Generator.UseGeneratorSceneNames = option.UseGeneratorSceneNames;
                 Generator.UseGeneratorFontNames = option.UseGeneratorFontNames;
+                Generator.UseGeneratorShaderNames = option.UseGeneratorShaderNames;
                 Generator.SetOutputPath(option.OutputPath);
                 if (option.UseUnityLogger) Generator.SetLogger(new UnityLogger());
             }

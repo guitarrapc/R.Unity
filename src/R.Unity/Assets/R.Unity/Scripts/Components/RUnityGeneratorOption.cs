@@ -7,6 +7,7 @@ namespace RUnity.Generator
         public string OutputPath = "Assets/Resources/RUnity.g.cs";
         public bool UseGeneratorSceneNames = true;
         public bool UseGeneratorFontNames = true;
+        public bool UseGeneratorShaderNames = true;
         public bool UseUnityLogger = true;
     }
 }

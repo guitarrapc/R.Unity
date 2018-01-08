@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 using RUnity.Generator.Targets;
@@ -12,58 +13,75 @@ using RUnity.Generator.Targets;
 #if UNITY_EDITOR
 namespace RUnity.Generator
 {
+    // Generate Following format class.
+    // namespace RUnity
+    // {
+    //    public static class XxxxTarget
+    //    {
+    //    }
+    //    public static class YxxxTarget
+    //    {
+    //    }
+    //    public static class ZxxxTarget
+    //    {
+    //    }
+    // }
     public static class Generator
     {
-        private static string outputPathDefault = "Assets/Resources/RUnity.g.cs";
-        private static StringBuilder builder = new StringBuilder();
+        private static readonly string OutputPathDefault = "Assets/Resources/RUnity.g.cs";
+        private static readonly StringBuilder builder = new StringBuilder();
+        private static readonly List<string> listString = new List<string>();
 
         // Generated file output path
         public static string OutputPath { get; private set; }
-        public static bool EnableLogger { get; private set; }
         public static bool UseGeneratorSceneNames { get; set; }
-        public static ILogger Logger { get; set; }
+        public static bool UseGeneratorFontNames { get; set; }
+        public static ILogger Logger { get; private set; }
 
         private static bool Success { get; set; }
+
+        public static void SetOutputPath(string path)
+        {
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("OutputPath");
+            OutputPath = path;
+        }
+
+        public static void SetLogger(ILogger logger)
+        {
+            if (logger == null) throw new ArgumentNullException("Logger");
+            Logger = logger;
+        }
 
         static Generator()
         {
             UseGeneratorSceneNames = true;
-            OutputPath = outputPathDefault;
+            UseGeneratorFontNames = true;
+            OutputPath = OutputPathDefault;
             if (Logger == null)
             {
                 Logger = new UnityLogger();
             }
         }
 
-        public static void SetOutputPath(string path)
+        public static bool GenerateAll()
         {
-            OutputPath = path;
-        }
+            // Initialize
+            listString.Clear();
 
-        public static bool Generate()
-        {
-            // Start NameSpace
-            BeginNameSpace();
+            // ITargets
+            if (UseGeneratorSceneNames) GenerateClass(new SceneNameTarget());
+            if (UseGeneratorFontNames) GenerateClass(new FontTarget());
 
-            // generate SceneNames
-            var sceneClass = SceneNameTarget.Generate();
-            Logger.Info(sceneClass);
+            // Add NameSpace
+            AddNameSpace();
 
-            var fontClass = FontTarget.Generate();
-            Logger.Info(fontClass);
-
-            // Append Class;
-            if (UseGeneratorSceneNames)
+            // Generate string
+            foreach(var item in listString)
             {
-                AppendClass(sceneClass);
+                builder.AppendLine(item);
             }
-            AppendClass(fontClass);
-
-            // End NameSpace
-            EndNameSpace();
-
-            // Generate to string
             var write = builder.ToString();
+            Logger.Info(write);
 
             // Write
             RemoveExisting();
@@ -73,33 +91,31 @@ namespace RUnity.Generator
             // Refresh to Update Asset Database.
             if (Success)
             {
-                Refresh();
+                AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
             }
             return Success;
         }
 
-        private static void BeginNameSpace()
+        public static void GenerateClass(ITarget target)
         {
-            // namespace RUnity
-            // {
-            // }
-            builder.AppendLine(@"namespace RUnity");
-            builder.AppendLine(@"{");
+            // generate SceneNames
+            var classItem = target.Generate();
+            Logger.Info(classItem);
+
+            // Generate to string
+            listString.Add(classItem);
         }
 
-        private static void EndNameSpace()
+        private static void AddNameSpace()
         {
-            builder.AppendLine(@"}");
+            listString.Insert(0, @"namespace RUnity");
+            listString.Insert(1, @"{");
+            listString.Insert(listString.Count, @"}");
         }
 
         private static void AppendClass(string value)
         {
-            builder.Append(value);
-        }
-
-        private static string GenerateString()
-        {
-            return builder.ToString();
+            builder.AppendLine(value);
         }
 
         private static void RemoveExisting()
@@ -136,11 +152,6 @@ namespace RUnity.Generator
             }
 
             File.AppendAllText(OutputPath, value, Encoding.UTF8);
-        }
-
-        public static void Refresh()
-        {
-            AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
         }
     }
 }

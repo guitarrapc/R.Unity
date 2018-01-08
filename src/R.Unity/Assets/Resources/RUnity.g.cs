@@ -9,6 +9,7 @@
         public static string Hoge_Exclamation_fuga { get {return "Hoge!fuga";} }
         public static string Main { get {return "main";} }
     }
+
     public static class FontNames
     {
         public static string Arial { get {return "Arial";} }
@@ -18,4 +19,5 @@
         public static string LiberationMono_Hyphen_Regular { get {return "LiberationMono-Regular";} }
         public static string OxygenMono_Hyphen_Regular { get {return "OxygenMono-Regular";} }
     }
+
 }

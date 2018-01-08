@@ -8,9 +8,9 @@ using UnityEngine;
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets
 {
-    public static class FontTarget
+    public class FontTarget : ITarget
     {
-        public static string Generate()
+        public string Generate()
         {
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class FontNames");

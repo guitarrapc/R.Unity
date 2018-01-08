@@ -9,9 +9,9 @@ using UnityEditor;
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets
 {
-    public static class SceneNameTarget
+    public class SceneNameTarget : ITarget
     {
-        public static string Generate()
+        public string Generate()
         {
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class SceneNames");

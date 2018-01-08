@@ -13,7 +13,7 @@ namespace RUnity.Generator.Editor.Samples.ProcessBuild
     {
         public static void Sample()
         {
-            Generator.Generate();
+            Generator.GenerateAll();
         }
     }
 }

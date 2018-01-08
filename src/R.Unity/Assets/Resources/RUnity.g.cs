@@ -2,12 +2,14 @@
 {
     public static class SceneNames
     {
-        public static string _One_hoge { get {return "1hoge";} }
-        public static string _validate { get {return "_validate";} }
-        public static string Abc { get {return "abc";} }
-        public static string Abc_ { get {return "abc_";} }
-        public static string Hoge_Exclamation_fuga { get {return "Hoge!fuga";} }
-        public static string Main { get {return "main";} }
+        public static string Scenes_Slash_1hoge { get {return "Scenes/1hoge";} }
+        public static string Scenes_Slash__validate { get {return "Scenes/_validate";} }
+        public static string Scenes_Slash_abc { get {return "Scenes/abc";} }
+        public static string Scenes_Slash_abc_ { get {return "Scenes/abc_";} }
+        public static string Scenes_Slash_Hoge_Exclamation_fuga { get {return "Scenes/Hoge!fuga";} }
+        public static string Scenes_Slash_main { get {return "Scenes/main";} }
+        public static string Scenes_Slash_public { get {return "Scenes/public";} }
+        public static string Public { get {return "public";} }
     }
 
     public static class FontNames

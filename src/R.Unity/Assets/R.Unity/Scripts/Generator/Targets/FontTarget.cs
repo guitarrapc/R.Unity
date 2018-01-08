@@ -61,7 +61,9 @@ namespace RUnity.Generator.Targets
             public BuildSetting(string name)
             {
                 Name = name;
-                CSharpName = InvalidCharacterPairs.Replace(name);
+                var validCharacterName = InvalidCharacterPairs.Replace(name);
+                var validKeyword = InvalidNames.Replace(validCharacterName);
+                CSharpName = validKeyword;
             }
 
             public string GenerateCSharpSentence()

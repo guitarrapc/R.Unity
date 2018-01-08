@@ -41,7 +41,7 @@ namespace RUnity.Generator.Editor.EditorExtension
         static void CreateRUnityOption()
         {
             // Instantiate
-            var item = ScriptableObject.CreateInstance<RUnityGeneratorOption>();
+            var item = CreateInstance<RUnityGeneratorOption>();
             var path = AssetDatabase.GenerateUniqueAssetPath(RUnityOptionPath);
             AssetDatabase.CreateAsset(item, path);
             AssetDatabase.SaveAssets();
@@ -54,7 +54,6 @@ namespace RUnity.Generator.Editor.EditorExtension
         [MenuItem(MenuRightClickCreateRUnityScriptableObject, false, 0)]
         static void CreateAsset()
         {
-            var script = Selection.activeObject as MonoScript;
             Create(typeof(RUnityGeneratorOption), RUnityOptionPath);
         }
 

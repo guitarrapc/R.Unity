@@ -28,27 +28,32 @@ namespace RUnity.Generator.Targets
         private static string[] GetSceneNames()
         {
             var scenes = EditorBuildSettings.scenes
-                .Select(x => new BuildSetting(x.path, System.IO.Path.GetFileNameWithoutExtension(x.path)))
+                .Select(x => new BuildSetting(GetScene(x.path)))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return scenes;
         }
 
+        private static string GetScene(string path)
+        {
+            return System.IO.Path.ChangeExtension(path.Replace("Assets/", ""), null);
+        }
+
         private struct BuildSetting
         {
             public string Path { get; set; }
-            public string Name { get; set; }
             public string CSharpName { get; set; }
-            public BuildSetting(string path, string name)
+            public BuildSetting(string path)
             {
-                Path = path;
-                Name = name;
-                CSharpName = InvalidCharacterPairs.Replace(name);
+                Path = System.IO.Path.ChangeExtension(path.Replace("Assets/", ""), null);
+                var validCharacterName = InvalidCharacterPairs.Replace(Path);
+                var validKeyword = InvalidNames.Replace(validCharacterName);
+                CSharpName = validKeyword;
             }
 
             public string GenerateCSharpSentence()
             {
-                return "public static string " + CSharpName + " { get {return \"" + Name + "\";} }";
+                return "public static string " + CSharpName + " { get {return \"" + Path + "\";} }";
             }
         }
     }

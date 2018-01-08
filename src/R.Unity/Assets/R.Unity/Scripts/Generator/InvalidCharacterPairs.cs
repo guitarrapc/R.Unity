@@ -17,65 +17,53 @@ namespace RUnity.Generator
         // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/
         // https://github.com/dotnet/csharplang/blob/master/spec/README.md
         // symbol name reference : https://www.prepressure.com/fonts/basics/character-names
-        public static InvalidCharacterPairs[] InvalidCharacters
-        {
-            get
-            {
-                return new[] {
-                    new InvalidCharacterPairs(' ', "Space"),
-                    new InvalidCharacterPairs('!', "Exclamation"),
-                    new InvalidCharacterPairs('"', "Doublequote"),
-                    new InvalidCharacterPairs('#', "Hash"),
-                    new InvalidCharacterPairs('$', "Dollar"),
-                    new InvalidCharacterPairs('%', "Percent"),
-                    new InvalidCharacterPairs('&', "Ampersand"),
-                    new InvalidCharacterPairs('\'', "Apostrophe"),
-                    new InvalidCharacterPairs('(', "Leftparenthesis"),
-                    new InvalidCharacterPairs(')', "Rightparenthesis"),
-                    new InvalidCharacterPairs('-', "Hyphen"),
-                    new InvalidCharacterPairs('=', "Equals"),
-                    new InvalidCharacterPairs('^', "Circumflex"),
-                    new InvalidCharacterPairs('~', "Tilde"),
-                    new InvalidCharacterPairs('"', "Backslash"),
-                    new InvalidCharacterPairs('|', "Pipe"),
-                    new InvalidCharacterPairs('@', "At"),
-                    new InvalidCharacterPairs('`', "Backquote"),
-                    new InvalidCharacterPairs('[', "Leftbracket"),
-                    new InvalidCharacterPairs(']', "Rightbracket"),
-                    new InvalidCharacterPairs('{', "Leftcurlybracket"),
-                    new InvalidCharacterPairs('}', "Rightcurlybracket"),
-                    new InvalidCharacterPairs(';', "Semicolon"),
-                    new InvalidCharacterPairs('+', "Plus"),
-                    new InvalidCharacterPairs(':', "Colon"),
-                    new InvalidCharacterPairs('*', "Asterisk"),
-                    new InvalidCharacterPairs(',', "Comma"),
-                    new InvalidCharacterPairs('.', "Period"),
-                    new InvalidCharacterPairs('<', "Lessthan"),
-                    new InvalidCharacterPairs('>', "Greaterthan"),
-                    new InvalidCharacterPairs('/', "Slash"),
-                    new InvalidCharacterPairs('?', "Question"),
-                };
-            }
-        }
+        private static readonly InvalidCharacterPairs[] invalidCharacters = new[] {
+            new InvalidCharacterPairs(' ', "Space"),
+            new InvalidCharacterPairs('!', "Exclamation"),
+            new InvalidCharacterPairs('"', "Doublequote"),
+            new InvalidCharacterPairs('#', "Hash"),
+            new InvalidCharacterPairs('$', "Dollar"),
+            new InvalidCharacterPairs('%', "Percent"),
+            new InvalidCharacterPairs('&', "Ampersand"),
+            new InvalidCharacterPairs('\'', "Apostrophe"),
+            new InvalidCharacterPairs('(', "Leftparenthesis"),
+            new InvalidCharacterPairs(')', "Rightparenthesis"),
+            new InvalidCharacterPairs('-', "Hyphen"),
+            new InvalidCharacterPairs('=', "Equals"),
+            new InvalidCharacterPairs('^', "Circumflex"),
+            new InvalidCharacterPairs('~', "Tilde"),
+            new InvalidCharacterPairs('"', "Backslash"),
+            new InvalidCharacterPairs('|', "Pipe"),
+            new InvalidCharacterPairs('@', "At"),
+            new InvalidCharacterPairs('`', "Backquote"),
+            new InvalidCharacterPairs('[', "Leftbracket"),
+            new InvalidCharacterPairs(']', "Rightbracket"),
+            new InvalidCharacterPairs('{', "Leftcurlybracket"),
+            new InvalidCharacterPairs('}', "Rightcurlybracket"),
+            new InvalidCharacterPairs(';', "Semicolon"),
+            new InvalidCharacterPairs('+', "Plus"),
+            new InvalidCharacterPairs(':', "Colon"),
+            new InvalidCharacterPairs('*', "Asterisk"),
+            new InvalidCharacterPairs(',', "Comma"),
+            new InvalidCharacterPairs('.', "Period"),
+            new InvalidCharacterPairs('<', "Lessthan"),
+            new InvalidCharacterPairs('>', "Greaterthan"),
+            new InvalidCharacterPairs('/', "Slash"),
+            new InvalidCharacterPairs('?', "Question"),
+        };
 
-        public static InvalidCharacterPairs[] InvalidStartsWithCharacters
-        {
-            get
-            {
-                return new[] {
-                    new InvalidCharacterPairs('1', "One"),
-                    new InvalidCharacterPairs('2', "Two"),
-                    new InvalidCharacterPairs('3', "Three"),
-                    new InvalidCharacterPairs('4', "Four"),
-                    new InvalidCharacterPairs('5', "Five"),
-                    new InvalidCharacterPairs('6', "Six"),
-                    new InvalidCharacterPairs('7', "Seven"),
-                    new InvalidCharacterPairs('8', "Eight"),
-                    new InvalidCharacterPairs('9', "Nine"),
-                    new InvalidCharacterPairs('0', "Ten"),
-                };
-            }
-        }
+        private static readonly InvalidCharacterPairs[] InvalidStartsWithCharacters = new[] {
+            new InvalidCharacterPairs('1', "One"),
+            new InvalidCharacterPairs('2', "Two"),
+            new InvalidCharacterPairs('3', "Three"),
+            new InvalidCharacterPairs('4', "Four"),
+            new InvalidCharacterPairs('5', "Five"),
+            new InvalidCharacterPairs('6', "Six"),
+            new InvalidCharacterPairs('7', "Seven"),
+            new InvalidCharacterPairs('8', "Eight"),
+            new InvalidCharacterPairs('9', "Nine"),
+            new InvalidCharacterPairs('0', "Ten"),
+        };
 
         public char TargetChar { get; set; }
         public string ReplaceString { get; set; }
@@ -124,9 +112,9 @@ namespace RUnity.Generator
             return result;
         }
 
-        public static bool TryReplaceInvalidChar(char c, out string value)
+        private static bool TryReplaceInvalidChar(char c, out string value)
         {
-            value = InvalidCharacters.Where(x => x.TargetChar == c).Select(x => x.ReplaceString).FirstOrDefault();
+            value = invalidCharacters.Where(x => x.TargetChar == c).Select(x => x.ReplaceString).FirstOrDefault();
             if (value == null)
             {
                 return false;
@@ -134,7 +122,7 @@ namespace RUnity.Generator
             return true;
         }
 
-        public static bool TryReplaceInvalidStartWith(char c, out string value)
+        private static bool TryReplaceInvalidStartWith(char c, out string value)
         {
             value = InvalidStartsWithCharacters.Where(x => x.TargetChar == c).Select(x => x.ReplaceString).FirstOrDefault();
             if (value == null)

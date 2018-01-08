@@ -360,10 +360,12 @@ namespace RUnity.Generator.Targets
 #endif
         };
 
+        public string ClassName { get { return "ShaderNames"; } }
+
         public string Generate()
         {
             var builder = new StringBuilder();
-            builder.AppendLine(Constants.Tab + @"public static class ShaderNames");
+            builder.AppendLine(Constants.Tab + @"public static class " + ClassName);
             builder.AppendLine(Constants.Tab + @"{");
 
             builder.AppendLine(Constants.DoubleTab + @"public static class Builtin");
@@ -376,7 +378,7 @@ namespace RUnity.Generator.Targets
 
             builder.AppendLine(Constants.DoubleTab + @"public static class Custom");
             builder.AppendLine(Constants.DoubleTab + @"{");
-            foreach (var item in GetCustom())
+            foreach (var item in Get())
             {
                 builder.AppendLine(Constants.TripleTab + item);
             }
@@ -388,14 +390,14 @@ namespace RUnity.Generator.Targets
 
         private static string[] GetBuiltin()
         {
-            var shaders = builtinShaders
+            var items = builtinShaders
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
-            return shaders;
+            return items;
         }
 
-        private static string[] GetCustom()
+        private static string[] Get()
         {
             var search = Search();
             var searchNames = search.Select(x => x.Name).ToArray();

@@ -32,9 +32,10 @@ namespace RUnity.Generator
 
         // Generated file output path
         public static string OutputPath { get; private set; }
-        public static bool UseGeneratorSceneNames { get; set; }
-        public static bool UseGeneratorFontNames { get; set; }
-        public static bool UseGeneratorShaderNames { get; set; }
+        public static bool GenerateSceneNames { get; set; }
+        public static bool GenerateFontNames { get; set; }
+        public static bool GenerateShaderNames { get; set; }
+        public static bool GenerateTagNames { get; set; }
         public static ILogger Logger { get; private set; }
 
         private static bool Success { get; set; }
@@ -53,9 +54,10 @@ namespace RUnity.Generator
 
         static Generator()
         {
-            UseGeneratorSceneNames = true;
-            UseGeneratorFontNames = true;
-            UseGeneratorShaderNames = true;
+            GenerateSceneNames = true;
+            GenerateFontNames = true;
+            GenerateShaderNames = true;
+            GenerateTagNames = true;
             OutputPath = OutputPathDefault;
             if (Logger == null)
             {
@@ -69,9 +71,10 @@ namespace RUnity.Generator
             var listString = new List<string>();
 
             // ITargets
-            if (UseGeneratorSceneNames) GenerateClass(new SceneNameTarget(), listString);
-            if (UseGeneratorFontNames) GenerateClass(new FontTarget(), listString);
-            if (UseGeneratorShaderNames) GenerateClass(new ShaderTarget(), listString);
+            if (GenerateSceneNames) GenerateClass(new SceneNameTarget(), listString);
+            if (GenerateFontNames) GenerateClass(new FontTarget(), listString);
+            if (GenerateShaderNames) GenerateClass(new ShaderTarget(), listString);
+            if (GenerateTagNames) GenerateClass(new TagTarget(), listString);
 
             // Add NameSpace
             listString.Insert(0, @"namespace RUnity");

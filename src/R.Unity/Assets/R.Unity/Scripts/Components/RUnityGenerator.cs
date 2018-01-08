@@ -12,9 +12,10 @@ namespace RUnity.Generator
         {
             if (option != null)
             {
-                Generator.UseGeneratorSceneNames = option.UseGeneratorSceneNames;
-                Generator.UseGeneratorFontNames = option.UseGeneratorFontNames;
-                Generator.UseGeneratorShaderNames = option.UseGeneratorShaderNames;
+                Generator.GenerateSceneNames = option.GenerateSceneNames;
+                Generator.GenerateFontNames = option.GenerateFontNames;
+                Generator.GenerateShaderNames = option.GenerateShaderNames;
+                Generator.GenerateTagNames = option.GenerateTagNames;
                 Generator.SetOutputPath(option.OutputPath);
                 if (option.UseUnityLogger) Generator.SetLogger(new UnityLogger());
             }

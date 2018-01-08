@@ -7,6 +7,7 @@ namespace RUnity.Generator.Targets
 {
     public interface ITarget
     {
+        string ClassName { get; }
         string Generate();
     }
 }

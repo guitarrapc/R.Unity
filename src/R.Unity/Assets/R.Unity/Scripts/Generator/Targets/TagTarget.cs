@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditorInternal;
+#endif
 
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets
 {
-    public class FontTarget : ITarget
+    public class TagTarget : ITarget
     {
-        public string ClassName { get { return "FontNames"; } }
+        public string ClassName { get { return "TagNames"; } }
         public string Generate()
         {
             var builder = new StringBuilder();
@@ -27,29 +30,17 @@ namespace RUnity.Generator.Targets
 
         private static string[] Get()
         {
-            var items = GetDefaultFonts()
-                .Select(x => x.name)
-                .Concat(Search())
+            var items = Search()
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return items;
         }
 
-        private static Font[] GetDefaultFonts()
-        {
-            return new[] { Resources.GetBuiltinResource<Font>("Arial.ttf") };
-        }
-
         private static string[] Search()
         {
             // Search all folders except editor.
-            var items = Directory.GetFiles(Application.dataPath, "*", SearchOption.AllDirectories)
-                .SelectMany(x => new DirectoryInfo(x).GetFiles())
-                .Where(x => !(x.Directory.FullName.Contains("editor") || x.Directory.FullName.Contains("Editor")))
-                .Where(x => x.Extension == ".ttf" || x.Extension == ".otf")
-                .Select(x => Path.GetFileNameWithoutExtension(x.Name))
-                .ToArray();
+            var items = InternalEditorUtility.tags;
             return items;
         }
 

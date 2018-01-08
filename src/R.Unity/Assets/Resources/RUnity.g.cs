@@ -141,4 +141,15 @@
         }
     }
 
+    public static class TagNames
+    {
+        public static string Untagged { get {return "Untagged";} }
+        public static string Respawn { get {return "Respawn";} }
+        public static string Finish { get {return "Finish";} }
+        public static string EditorOnly { get {return "EditorOnly";} }
+        public static string MainCamera { get {return "MainCamera";} }
+        public static string Player { get {return "Player";} }
+        public static string GameController { get {return "GameController";} }
+    }
+
 }

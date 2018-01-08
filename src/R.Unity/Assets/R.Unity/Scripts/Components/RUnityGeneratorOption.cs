@@ -5,9 +5,10 @@ namespace RUnity.Generator
     public class RUnityGeneratorOption : ScriptableObject
     {
         public string OutputPath = "Assets/Resources/RUnity.g.cs";
-        public bool UseGeneratorSceneNames = true;
-        public bool UseGeneratorFontNames = true;
-        public bool UseGeneratorShaderNames = true;
+        public bool GenerateSceneNames = true;
+        public bool GenerateFontNames = true;
+        public bool GenerateShaderNames = true;
+        public bool GenerateTagNames = true;
         public bool UseUnityLogger = true;
     }
 }

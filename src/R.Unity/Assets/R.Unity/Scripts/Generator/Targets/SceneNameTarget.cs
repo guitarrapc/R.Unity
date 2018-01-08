@@ -11,10 +11,12 @@ namespace RUnity.Generator.Targets
 {
     public class SceneNameTarget : ITarget
     {
+        public string ClassName { get { return "SceneNames"; } }
+
         public string Generate()
         {
             var builder = new StringBuilder();
-            builder.AppendLine(Constants.Tab + @"public static class SceneNames");
+            builder.AppendLine(Constants.Tab + @"public static class " + ClassName);
             builder.AppendLine(Constants.Tab + @"{");
             foreach (var item in Get())
             {
@@ -27,11 +29,11 @@ namespace RUnity.Generator.Targets
 
         private static string[] Get()
         {
-            var scenes = EditorBuildSettings.scenes
+            var items = EditorBuildSettings.scenes
                 .Select(x => new BuildSetting(Search(x.path)))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
-            return scenes;
+            return items;
         }
 
         private static string Search(string path)

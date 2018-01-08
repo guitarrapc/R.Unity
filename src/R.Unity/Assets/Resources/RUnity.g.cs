@@ -172,4 +172,16 @@
         }
     }
 
+    public static class SortingLayers
+    {
+        public static class Names
+        {
+            public static string Default { get {return "Default";} }
+        }
+        public static class Ids
+        {
+            public static string Default { get {return "0";} }
+        }
+    }
+
 }

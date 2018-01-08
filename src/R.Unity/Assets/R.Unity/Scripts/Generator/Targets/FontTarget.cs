@@ -48,6 +48,7 @@ namespace RUnity.Generator.Targets
             // TODO : Or Should I set extensions to path folder?
             var fonts = Directory.GetDirectories(Application.dataPath, "*font*", SearchOption.AllDirectories)
                 .SelectMany(x => new DirectoryInfo(x).GetFiles())
+                .Where(x => !(x.Directory.FullName.Contains("editor") || x.Directory.FullName.Contains("Editor")))
                 .Where(x => x.Extension == ".ttf" || x.Extension == ".otf")
                 .Select(x => Path.GetFileNameWithoutExtension(x.Name))
                 .ToArray();

@@ -32,7 +32,7 @@ namespace RUnity.Generator
             new InvalidCharacterPairs('=', "Equals"),
             new InvalidCharacterPairs('^', "Circumflex"),
             new InvalidCharacterPairs('~', "Tilde"),
-            new InvalidCharacterPairs('"', "Backslash"),
+            new InvalidCharacterPairs('\\', "Backslash"),
             new InvalidCharacterPairs('|', "Pipe"),
             new InvalidCharacterPairs('@', "At"),
             new InvalidCharacterPairs('`', "Backquote"),

@@ -19,6 +19,7 @@ namespace RUnity.Generator
                 Generator.GenerateLayers = option.GenerateLayers;
                 Generator.GenerateSortingLayers = option.GenerateSoringLayers;
                 Generator.GenerateNavMeshAreaNames = option.GenerateNavMeshAreaNames;
+                Generator.GenerateResourceNames = option.GenerateResourceNames;
                 Generator.SetOutputPath(option.OutputPath);
                 if (option.UseUnityLogger) Generator.SetLogger(new UnityLogger());
             }

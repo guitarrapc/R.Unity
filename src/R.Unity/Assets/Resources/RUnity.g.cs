@@ -191,4 +191,10 @@
         public static string Jump { get {return "Jump";} }
     }
 
+    public static class ResourceNames
+    {
+        public static string Resources_Slash_RUnity_Period_g_Period_cs { get {return "RUnity.g.cs";} }
+        public static string Test_Slash_Resources_Slash_hoge_Period_unity { get {return "hoge.unity";} }
+    }
+
 }

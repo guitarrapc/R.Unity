@@ -12,6 +12,7 @@ namespace RUnity.Generator
         public bool GenerateLayers = true;
         public bool GenerateSoringLayers = true;
         public bool GenerateNavMeshAreaNames = true;
+        public bool GenerateResourceNames = true;
         public bool UseUnityLogger = true;
     }
 }

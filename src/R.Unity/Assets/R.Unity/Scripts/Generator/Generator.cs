@@ -34,6 +34,7 @@ namespace RUnity.Generator
         public static string OutputPath { get; private set; }
         public static bool UseGeneratorSceneNames { get; set; }
         public static bool UseGeneratorFontNames { get; set; }
+        public static bool UseGeneratorShaderNames { get; set; }
         public static ILogger Logger { get; private set; }
 
         private static bool Success { get; set; }
@@ -54,6 +55,7 @@ namespace RUnity.Generator
         {
             UseGeneratorSceneNames = true;
             UseGeneratorFontNames = true;
+            UseGeneratorShaderNames = true;
             OutputPath = OutputPathDefault;
             if (Logger == null)
             {
@@ -69,6 +71,7 @@ namespace RUnity.Generator
             // ITargets
             if (UseGeneratorSceneNames) GenerateClass(new SceneNameTarget(), listString);
             if (UseGeneratorFontNames) GenerateClass(new FontTarget(), listString);
+            if (UseGeneratorShaderNames) GenerateClass(new ShaderTarget(), listString);
 
             // Add NameSpace
             listString.Insert(0, @"namespace RUnity");

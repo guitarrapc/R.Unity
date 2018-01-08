@@ -16,25 +16,25 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class SceneNames");
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in GetSceneNames())
+            foreach (var item in Get())
             {
-                builder.AppendLine(Constants.Tab + Constants.Tab + item);
+                builder.AppendLine(Constants.DoubleTab + item);
             }
             builder.AppendLine(Constants.Tab + @"}");
 
             return builder.ToString();
         }
 
-        private static string[] GetSceneNames()
+        private static string[] Get()
         {
             var scenes = EditorBuildSettings.scenes
-                .Select(x => new BuildSetting(GetScene(x.path)))
+                .Select(x => new BuildSetting(Search(x.path)))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return scenes;
         }
 
-        private static string GetScene(string path)
+        private static string Search(string path)
         {
             return System.IO.Path.ChangeExtension(path.Replace("Assets/", ""), null);
         }

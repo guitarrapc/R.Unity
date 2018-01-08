@@ -15,20 +15,20 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class FontNames");
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in GetFonts())
+            foreach (var item in Get())
             {
-                builder.AppendLine(Constants.Tab + Constants.Tab + item);
+                builder.AppendLine(Constants.DoubleTab + item);
             }
             builder.AppendLine(Constants.Tab + @"}");
 
             return builder.ToString();
         }
 
-        private static string[] GetFonts()
+        private static string[] Get()
         {
             var fonts = GetDefaultFonts()
                 .Select(x => x.name)
-                .Concat(SearchFont())
+                .Concat(Search())
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
@@ -40,16 +40,16 @@ namespace RUnity.Generator.Targets
             return new[] { Resources.GetBuiltinResource<Font>("Arial.ttf") };
         }
 
-        private static string[] SearchFont()
+        private static string[] Search()
         {
             // Search all folders except editor.
-            var fonts = Directory.GetFiles(Application.dataPath, "*", SearchOption.AllDirectories)
+            var items = Directory.GetFiles(Application.dataPath, "*", SearchOption.AllDirectories)
                 .SelectMany(x => new DirectoryInfo(x).GetFiles())
                 .Where(x => !(x.Directory.FullName.Contains("editor") || x.Directory.FullName.Contains("Editor")))
                 .Where(x => x.Extension == ".ttf" || x.Extension == ".otf")
                 .Select(x => Path.GetFileNameWithoutExtension(x.Name))
                 .ToArray();
-            return fonts;
+            return items;
         }
 
         private struct BuildSetting

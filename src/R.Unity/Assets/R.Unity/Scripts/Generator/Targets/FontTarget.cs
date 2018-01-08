@@ -17,7 +17,7 @@ namespace RUnity.Generator.Targets
             builder.AppendLine(Constants.Tab + @"{");
             foreach (var item in Get())
             {
-                builder.AppendLine(Constants.Tab + Constants.Tab + item);
+                builder.AppendLine(Constants.DoubleTab + item);
             }
             builder.AppendLine(Constants.Tab + @"}");
 

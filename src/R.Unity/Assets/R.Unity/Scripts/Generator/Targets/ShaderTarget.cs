@@ -10,17 +10,21 @@ namespace RUnity.Generator.Targets
 {
     public class ShaderTarget : ITarget
     {
-        // Pickup shadername linqpad code.
-        //var basePath = @"C:\Users\UserName\Downloads\builtin_shaders-2017.3.0f3";
-        //Directory.EnumerateFiles(basePath, "*.shader", SearchOption.AllDirectories)
-        //.SelectMany(x => File.ReadLines(x))
-        //.Where(x => x.Contains("Shader \""))
-        //.Select(x => x.Replace("Shader ", ""))
-        //.Select(x => x.Replace(" {", ""))
-        //.Select(x => x + ",")
-        //.Where(x => !x.StartsWith("\"Hidden"))
-        //.OrderBy(x => x)
-        //.Dump();
+        // Tips:
+        // Pickup Builtin shadername with linqpad.
+        //
+        // 1. Download Builtin Shader from Unity Download.
+        // 2. run following code with LinqPad.
+        //    var basePath = @"C:\Users\UserName\Downloads\builtin_shaders-2017.3.0f3";
+        //    Directory.EnumerateFiles(basePath, "*.shader", SearchOption.AllDirectories)
+        //    .SelectMany(x => File.ReadLines(x))
+        //    .Where(x => x.Contains("Shader \""))
+        //    .Select(x => x.Replace("Shader ", ""))
+        //    .Select(x => x.Replace(" {", ""))
+        //    .Select(x => x + ",")
+        //    .Where(x => !x.StartsWith("\"Hidden"))
+        //    .OrderBy(x => x)
+        //    .Dump();
         private static readonly string[] buildinShaders = new[] {
 #if UNITY_2017_3
             #region 2017.3.x : 109 items
@@ -358,28 +362,43 @@ namespace RUnity.Generator.Targets
             var builder = new StringBuilder();
             builder.AppendLine(Constants.Tab + @"public static class ShaderNames");
             builder.AppendLine(Constants.Tab + @"{");
-            foreach (var item in Get())
+
+            builder.AppendLine(Constants.DoubleTab + @"public static class Builtin");
+            builder.AppendLine(Constants.DoubleTab + @"{");
+            foreach (var item in GetBuiltin())
             {
-                builder.AppendLine(Constants.Tab + Constants.Tab + item);
+                builder.AppendLine(Constants.TripleTab + item);
             }
+            builder.AppendLine(Constants.DoubleTab + @"}");
+
+            builder.AppendLine(Constants.DoubleTab + @"public static class Custom");
+            builder.AppendLine(Constants.DoubleTab + @"{");
+            foreach (var item in GetCustom())
+            {
+                builder.AppendLine(Constants.TripleTab + item);
+            }
+            builder.AppendLine(Constants.DoubleTab + @"}");
             builder.AppendLine(Constants.Tab + @"}");
 
             return builder.ToString();
         }
 
-        private static string[] Get()
+        private static string[] GetBuiltin()
         {
-            var shaders = GetDefaultShaders()
-                .Concat(Search())
+            var shaders = buildinShaders
                 .Select(x => new BuildSetting(x))
                 .Select(x => x.GenerateCSharpSentence())
                 .ToArray();
             return shaders;
         }
 
-        private static string[] GetDefaultShaders()
+        private static string[] GetCustom()
         {
-            return buildinShaders;
+            var shaders = Search()
+                .Select(x => new BuildSetting(x))
+                .Select(x => x.GenerateCSharpSentence())
+                .ToArray();
+            return shaders;
         }
 
         private static string[] Search()

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR
 using RUnity.Generator.Extensions;
+#endif
 
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets

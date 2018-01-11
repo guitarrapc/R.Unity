@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using UnityEngine;
-using RUnity.Generator.Extensions;
 
 #if UNITY_EDITOR
 namespace RUnity.Generator.Targets
